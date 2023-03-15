@@ -36,8 +36,8 @@ const Home: NextPage = () => {
       title='top'
       description='top'
     >
-      <div className='mt-50'>
-        
+      <div className='flex justify-center items-center flex-col'>
+        <h1 className='m-8'>テーブル一覧</h1>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
