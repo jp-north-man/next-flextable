@@ -7,7 +7,7 @@ export function header(){
         <header className="bg-slate-50 text-black">
             <div className="flex items-center justify-between px-4 py-3">
                 <a href="index.tsx" className="font-bold text-lg">FlexTable</a>
-                <Link href={'/'} className="mr-10">create</Link>
+                <Link href={'/create'} className="mr-10">create</Link>
             </div>
         </header>
 
