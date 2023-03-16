@@ -44,14 +44,14 @@ const Create: NextPage = () => {
 
                   {columns.map((data, key) => (
                     <tr>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          <input type="text" name="column_name" id="column_name" placeholder="Enter column name" className="block w-full shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-md" />
+                      <td className="whitespace-nowrap">
+                        <div className="text-sm text-gray-900 flex justify-center">
+                          <input type="text" name="column_name" id="column_name" placeholder="Enter column name" className="px-2 block w-full sm:text-sm border-none outline-none" />
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          <select name="column_type" id="column_type" className="block w-full shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-md">
+                      <td className="whitespace-nowrap">
+                        <div className="text-sm text-gray-900 flex justify-center">
+                          <select name="column_type" id="column_type" className="px-2 block w-full sm:text-sm border-none bg-white outline-none">
                             <option value="text">Text</option>
                             <option value="button">Button</option>
                             <option value="checkbox">Checkbox</option>
@@ -59,11 +59,11 @@ const Create: NextPage = () => {
                           </select>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
+                      <td className="whitespace-nowrap">
+                        <div className="text-sm text-gray-900 flex justify-center">
                           <button
                             type="button"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            className="bg-white hover:bg-gray-300 font-bold py-2 px-4 rounded text-gray-900"
                             onClick={() => handleRemoveColumn(key)}
                           >
                             ✕
