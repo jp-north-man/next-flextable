@@ -4,22 +4,24 @@ import { Layout } from '../components/Layout'
 
 const Create: NextPage = () => {
 
-  const [columns, setColumns] = useState([{ name: "", type: "text" }]);
+  const [columns, setColumns] = useState([{ name: "", type: "text" },{ name: "", type: "text" }]);
   const handleAddColumn = () => {
     setColumns([...columns, { name: "", type: "text" }]);
+    console.log(columns)
   };
   const handleRemoveColumn = (index: number) => {
     setColumns([...columns.slice(0, index), ...columns.slice(index + 1)]);
+    console.log(columns)
   };
-  const handleColumnNameChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const newColumns = [...columns];
-    newColumns[index].name = event.target.value;
-    setColumns(newColumns);
-  };
-  const handleColumnTypeChange = (event: React.ChangeEvent<HTMLSelectElement>, index: number) => {
-    const newColumns = [...columns];
-    newColumns[index].type = event.target.value;
-    setColumns(newColumns);
+
+  const handleColumnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number, key: "name" | "type") => {
+    const { value } = event.target;
+    console.log("value:",value, "index:",index,"key:",key)
+    setColumns(prevColumns => {
+      const newColumns = [...prevColumns];
+      newColumns[index][key] = value;
+      return newColumns;
+    });
   };
 
   return (
@@ -42,16 +44,21 @@ const Create: NextPage = () => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
 
-                  {columns.map((data, key) => (
-                    <tr>
+                  {columns.map((data, index) => (
+                    <tr key={index}>
                       <td className="whitespace-nowrap">
+                        {index}
                         <div className="text-sm text-gray-900 flex justify-center">
-                          <input type="text" name="column_name" id="column_name" placeholder="Enter column name" className="px-2 block w-full sm:text-sm border-none outline-none" />
+                          <input type="text" name="column_name" id="column_name" placeholder="Enter column name" className="px-2 block w-full sm:text-sm border-none outline-none"
+                            onChange={(event) => handleColumnChange(event, index, "name")}
+                          />
                         </div>
                       </td>
                       <td className="whitespace-nowrap">
                         <div className="text-sm text-gray-900 flex justify-center">
-                          <select name="column_type" id="column_type" className="px-2 block w-full sm:text-sm border-none bg-white outline-none">
+                          <select name="column_type" id="column_type" className="px-2 block w-full sm:text-sm border-none bg-white outline-none"
+                            onChange={(event) => handleColumnChange(event, index, "type")}
+                          >
                             <option value="text">Text</option>
                             <option value="button">Button</option>
                             <option value="checkbox">Checkbox</option>
@@ -64,7 +71,7 @@ const Create: NextPage = () => {
                           <button
                             type="button"
                             className="bg-white hover:bg-gray-300 font-bold py-2 px-4 rounded text-gray-900"
-                            onClick={() => handleRemoveColumn(key)}
+                            onClick={() => handleRemoveColumn(index)}
                           >
                             ✕
                           </button>
