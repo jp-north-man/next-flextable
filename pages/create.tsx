@@ -6,10 +6,16 @@ const Create: NextPage = () => {
 
   const [columns, setColumns] = useState([{id:0, name: "", type: "text" },{id:1, name: "", type: "text" }]);
   const handleAddColumn = () => {
-    const idnum = columns.slice(-1)[0].id + 1
-    setColumns([...columns, {id:idnum, name: "", type: "text" }]);
+    if (columns.length === 0) {
+      setColumns([...columns, {id:0, name: "", type: "text" }]); 
+    }else{
+      const idnum = columns.slice(-1)[0].id + 1
+      setColumns([...columns, {id:idnum, name: "", type: "text" }]);
+    }
+    
     console.log(columns)
   };
+
   const handleRemoveColumn = (index: number) => {
     const newColumns = [...columns];
     newColumns.splice(index, 1);
