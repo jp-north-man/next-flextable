@@ -4,7 +4,7 @@ import { Layout } from '../components/Layout'
 
 const Create: NextPage = () => {
 
-  const [columns, setColumns] = useState([{id:0, name: "", type: "text" },{id:1, name: "", type: "text" }]);
+  const [columns, setColumns] = useState([{id:0, name: "", type: "text" },{id:1, name: "", width: "", type: "text" }]);
   const handleAddColumn = () => {
     if (columns.length === 0) {
       setColumns([...columns, {id:0, name: "", type: "text" }]); 
@@ -24,7 +24,7 @@ const Create: NextPage = () => {
   };
   
 
-  const handleColumnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number, key: "name" | "type") => {
+  const handleColumnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number, key: "name" | "width"| "type" ) => {
     const { value } = event.target;
     console.log("value:",value, "index:",index,"key:",key)
     setColumns(prevColumns => {
@@ -40,17 +40,19 @@ const Create: NextPage = () => {
       description='新しいテーブルを作成するページです。'
     >
       <div className='flex justify-center items-center flex-col'>
-        <h1 className='m-8'>新規テーブル作成</h1>
+        <h1 className='m-5'>新規テーブル作成</h1>
+        <p className='mb-5 text-gray-500 text-xs'>テーブルカラムの設定ができます。カラム名、カラムタイプ、カラムサイズを選択してください。</p>
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div className="py-2 align-middle inline-block min-w-full sm:px-2 lg:px-4">
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-200">
+              <table className="divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Column Name</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Column Type</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">remove</th>
+                    <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                    <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Column Name</th>
+                    <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Column Type</th>
+                    <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Column Size</th>
+                    <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">remove</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -62,6 +64,7 @@ const Create: NextPage = () => {
                           {index}
                         </div>
                       </td>
+
                       <td className="whitespace-nowrap">
                         <div className="text-sm text-gray-900 flex justify-center">
                           <input type="text" name="column_name" id="column_name" placeholder="Enter column name" className="px-2 block w-full sm:text-sm border-none outline-none"
@@ -69,6 +72,7 @@ const Create: NextPage = () => {
                           />
                         </div>
                       </td>
+                      
                       <td className="whitespace-nowrap">
                         <div className="text-sm text-gray-900 flex justify-center">
                           <select name="column_type" id="column_type" className="px-2 block w-full sm:text-sm border-none bg-white outline-none"
@@ -76,11 +80,19 @@ const Create: NextPage = () => {
                           >
                             <option value="text">Text</option>
                             <option value="button">Button</option>
-                            <option value="checkbox">Checkbox</option>
                             <option value="date">Date</option>
                           </select>
                         </div>
                       </td>
+
+                      <td className="whitespace-nowrap">
+                        <div className="text-sm text-gray-900 flex justify-center">
+                          <input type="number" min="30" max="900" name="column_width" id="column_width" placeholder="width" className="px-2 block w-full sm:text-sm border-none outline-none"
+                            onChange={(event) => handleColumnChange(event, index, "width")}
+                          />px
+                        </div>
+                      </td>
+
                       <td className="whitespace-nowrap">
                         <div className="text-sm text-gray-900 flex justify-center">
                           <button
@@ -103,7 +115,7 @@ const Create: NextPage = () => {
         </div>
         <button
           type="button"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="my-3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => handleAddColumn()}
         >
           +
