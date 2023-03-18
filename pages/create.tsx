@@ -4,15 +4,19 @@ import { Layout } from '../components/Layout'
 
 const Create: NextPage = () => {
 
-  const [columns, setColumns] = useState([{ name: "", type: "text" },{ name: "", type: "text" }]);
+  const [columns, setColumns] = useState([{id:0, name: "", type: "text" },{id:1, name: "", type: "text" }]);
   const handleAddColumn = () => {
-    setColumns([...columns, { name: "", type: "text" }]);
+    const idnum = columns.slice(-1)[0].id + 1
+    setColumns([...columns, {id:idnum, name: "", type: "text" }]);
     console.log(columns)
   };
   const handleRemoveColumn = (index: number) => {
-    setColumns([...columns.slice(0, index), ...columns.slice(index + 1)]);
+    const newColumns = [...columns];
+    newColumns.splice(index, 1);
+    setColumns(newColumns);
     console.log(columns)
   };
+  
 
   const handleColumnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number, key: "name" | "type") => {
     const { value } = event.target;
@@ -37,6 +41,7 @@ const Create: NextPage = () => {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Column Name</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Column Type</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">remove</th>
@@ -45,9 +50,13 @@ const Create: NextPage = () => {
                 <tbody className="bg-white divide-y divide-gray-200">
 
                   {columns.map((data, index) => (
-                    <tr key={index}>
+                    <tr key={`${data.id}`}>
                       <td className="whitespace-nowrap">
-                        {index}
+                        <div className="text-sm text-gray-900 flex justify-center">
+                          {index}
+                        </div>
+                      </td>
+                      <td className="whitespace-nowrap">
                         <div className="text-sm text-gray-900 flex justify-center">
                           <input type="text" name="column_name" id="column_name" placeholder="Enter column name" className="px-2 block w-full sm:text-sm border-none outline-none"
                             onChange={(event) => handleColumnChange(event, index, "name")}
