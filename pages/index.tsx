@@ -9,9 +9,34 @@ const Home: NextPage = () => {
     { id: "2hjdyi3j", name: "顧客管理", category: "営業", date: "2023/01/30" },
     { id: "hfy5anv3", name: "アプローチリスト", category: "営業", date: "2022/12/22" },
   ]);
+
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, id: string) => {
+    const checked = event.target.checked;
+    if (checked) {
+      setSelectedIds((prev) => [...prev, id]);
+    } else {
+      setSelectedIds((prev) => prev.filter((prevId) => prevId !== id));
+    }
+    console.log(selectedIds)
+  };
+
+  const handleCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = event.target.checked;
+    if (checked) {
+      const allIds = data.map(d => d.id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+    console.log(selectedIds)
+
+  }
+
   useEffect(() => {
 		const fetchData = async () => {
-			const res = await fetch('/api/message', {
+			const res = await fetch('/api/list', {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json'
@@ -44,8 +69,11 @@ const Home: NextPage = () => {
               <tr>
                 <th scope="col" className="p-4">
                   <div className="flex items-center">
-                      <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                      <label htmlFor="checkbox-all-search" className="sr-only">checkbox</label>
+                    <input 
+                      onChange={(e) => handleCheckAll(e)}
+                      id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" 
+                    />
+                    <label htmlFor="checkbox-all-search" className="sr-only">checkbox</label>
                   </div>
                 </th>
                 <th scope="col" className="px-6 py-3">
@@ -64,13 +92,16 @@ const Home: NextPage = () => {
                 <tr key={datas.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <td className="w-4 p-4">
                       <div className="flex items-center">
-                          <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                          <input 
+                            onChange={(e) => handleCheckboxChange(e, datas.id)}
+                            id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" 
+                          />
                           <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
                       </div>
                   </td>
-                  <th className="px-6 py-4">
+                  <td className="px-6 py-4">
                     {datas.name}
-                  </th>
+                  </td>
                   <td className="px-6 py-4">
                     {datas.category}
                   </td>
