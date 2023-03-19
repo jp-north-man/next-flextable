@@ -4,13 +4,13 @@ import { Layout } from '../components/Layout'
 
 const Create: NextPage = () => {
 
-  const [columns, setColumns] = useState([{id:0, name: "", type: "text" },{id:1, name: "", width: "", type: "text" }]);
+  const [columns, setColumns] = useState([{id:0, name: "", width: "", type: "text" },{id:1, name: "", width: "", type: "text" }]);
   const handleAddColumn = () => {
     if (columns.length === 0) {
-      setColumns([...columns, {id:0, name: "", type: "text" }]); 
+      setColumns([...columns, {id:0, name: "", width: "", type: "text" }]); 
     }else{
       const idnum = columns.slice(-1)[0].id + 1
-      setColumns([...columns, {id:idnum, name: "", type: "text" }]);
+      setColumns([...columns, {id:idnum, name: "", width: "", type: "text" }]);
     }
     
     console.log(columns)
@@ -22,7 +22,6 @@ const Create: NextPage = () => {
     setColumns(newColumns);
     console.log(columns)
   };
-  
 
   const handleColumnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number, key: "name" | "width"| "type" ) => {
     const { value } = event.target;
@@ -32,6 +31,26 @@ const Create: NextPage = () => {
       newColumns[index][key] = value;
       return newColumns;
     });
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await fetch('/api/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ columns }),
+      });
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      // Success message or redirect to another page
+    } catch (error) {
+      console.error(error);
+      // Error message
+    }
   };
 
   return (
@@ -120,6 +139,15 @@ const Create: NextPage = () => {
         >
           +
         </button>
+
+        <form onSubmit={handleSubmit}>
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+          >
+            テーブルを作成
+          </button>  
+        </form>
       </div>
     </Layout>
   )
