@@ -7,9 +7,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log(columns)
     console.log(tableName)
     try {
-      // Send `columns` data to Golang REST API using fetch or axios
-      // and get response
-      // ...
+      const response = await fetch('http://localhost:8080/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          columns,
+          tableName,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+      console.log(data);
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
