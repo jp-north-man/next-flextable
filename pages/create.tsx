@@ -5,6 +5,7 @@ import { Layout } from '../components/Layout'
 const Create: NextPage = () => {
 
   const [columns, setColumns] = useState([{id:0, name: "", width: "", type: "text" },{id:1, name: "", width: "", type: "text" }]);
+  const [tableName, setTableName] = useState("")
   const handleAddColumn = () => {
     if (columns.length === 0) {
       setColumns([...columns, {id:0, name: "", width: "", type: "text" }]); 
@@ -12,15 +13,12 @@ const Create: NextPage = () => {
       const idnum = columns.slice(-1)[0].id + 1
       setColumns([...columns, {id:idnum, name: "", width: "", type: "text" }]);
     }
-    
-    console.log(columns)
   };
 
   const handleRemoveColumn = (index: number) => {
     const newColumns = [...columns];
     newColumns.splice(index, 1);
     setColumns(newColumns);
-    console.log(columns)
   };
 
   const handleColumnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number, key: "name" | "width"| "type" ) => {
@@ -41,7 +39,7 @@ const Create: NextPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ columns }),
+        body: JSON.stringify({ columns, tableName }),
       });
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -60,6 +58,15 @@ const Create: NextPage = () => {
     >
       <div className='flex justify-center items-center flex-col'>
         <h1 className='m-5'>新規テーブル作成</h1>
+        <div className="mb-6">
+          <label htmlFor="default-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">テーブル名を入力してください。</label>
+          <input
+            type="text"
+            id="default-input"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            onChange={(e) => setTableName(e.target.value)}
+          />
+        </div>
         <p className='mb-5 text-gray-500 text-xs'>テーブルカラムの設定ができます。カラム名、カラムタイプ、カラムサイズを選択してください。</p>
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-2 lg:px-4">

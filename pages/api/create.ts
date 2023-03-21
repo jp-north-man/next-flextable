@@ -3,7 +3,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { columns } = req.body;
+    const { tableName } = req.body; 
     console.log(columns)
+    console.log(tableName)
     try {
       // Send `columns` data to Golang REST API using fetch or axios
       // and get response
