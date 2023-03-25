@@ -4,26 +4,26 @@ import { Layout } from '../components/Layout'
 
 const Create: NextPage = () => {
 
-  const [columns, setColumns] = useState([{id:0, name: "", width: "", type: "text" },{id:1, name: "", width: "", type: "text" }]);
+  const [columns, setColumns] = useState([
+    {uid: Date.now(), id: 0, name: "", width: "", type: "text" },
+    {uid: Date.now() + 1, id: 1, name: "", width: "", type: "text" }
+  ]);
   const [tableName, setTableName] = useState("")
+  
   const handleAddColumn = () => {
-    if (columns.length === 0) {
-      setColumns([...columns, {id:0, name: "", width: "", type: "text" }]); 
-    }else{
-      const idnum = columns.slice(-1)[0].id + 1
-      setColumns([...columns, {id:idnum, name: "", width: "", type: "text" }]);
-    }
+    const newId = columns.length;
+    const uId = Date.now();
+    setColumns([...columns, {uid: uId, id: newId, name: '', width: '', type: 'text' }]);
+    console.log(columns)
   };
 
   const handleRemoveColumn = (index: number) => {
-    const newColumns = [...columns];
-    newColumns.splice(index, 1);
-    setColumns(newColumns);
+    const newColumns = columns.filter((_, idx) => idx !== index);
+    setColumns(newColumns.map((column, idx) => ({ ...column, id: idx })));
   };
-
+  
   const handleColumnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number, key: "name" | "width"| "type" ) => {
     const { value } = event.target;
-    console.log("value:",value, "index:",index,"key:",key)
     setColumns(prevColumns => {
       const newColumns = [...prevColumns];
       newColumns[index][key] = value;
@@ -84,7 +84,7 @@ const Create: NextPage = () => {
                 <tbody className="bg-white divide-y divide-gray-200">
 
                   {columns.map((data, index) => (
-                    <tr key={`${data.id}`}>
+                    <tr key={data.uid}>
                       <td className="whitespace-nowrap">
                         <div className="text-sm text-gray-900 flex justify-center">
                           {index}
