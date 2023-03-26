@@ -36,6 +36,23 @@ const Create: NextPage = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    // Validation: Check for empty inputs
+    if (tableName.trim() === '') {
+      setModalContent({ title: 'エラー', message: 'テーブル名を入力してください。' });
+      setShowModal(true);
+      return;
+    }
+
+    for (const column of columns) {
+      if (column.name.trim() === '' || column.width.trim() === '' || column.type.trim() === '') {
+        setModalContent({ title: 'エラー', message: 'すべてのカラムに値を入力してください。' });
+        setShowModal(true);
+        return;
+      }
+    }
+
+
     try {
       const response = await fetch('http://localhost:3000/api/create', {
         method: 'POST',
@@ -49,13 +66,13 @@ const Create: NextPage = () => {
       }
 
       // Success message
-      setModalContent({ title: '成功', message: '成功しました' });
+      setModalContent({ title: '成功', message: 'FlexTableの作成に成功しました。テーブル一覧を参照ください。' });
       setShowModal(true);
     } catch (error) {
       console.error(error);
 
       // Error message
-      setModalContent({ title: 'エラー', message: 'エラーが発生しました' });
+      setModalContent({ title: 'エラー', message: 'エラーが発生しました。' + error });
       setShowModal(true);
     }
   };
