@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 import { Layout } from '../components/Layout'
+import Modal from '../components/Modal';
 
 const Create: NextPage = () => {
 
@@ -9,6 +10,8 @@ const Create: NextPage = () => {
     {uid: Date.now() + 1, id: 1, name: "", width: "", type: "text" }
   ]);
   const [tableName, setTableName] = useState("")
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: '', message: '' });
   
   const handleAddColumn = () => {
     const newId = columns.length;
@@ -44,10 +47,16 @@ const Create: NextPage = () => {
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      // Success message or redirect to another page
+
+      // Success message
+      setModalContent({ title: '成功', message: '成功しました' });
+      setShowModal(true);
     } catch (error) {
       console.error(error);
+
       // Error message
+      setModalContent({ title: 'エラー', message: 'エラーが発生しました' });
+      setShowModal(true);
     }
   };
 
@@ -56,6 +65,14 @@ const Create: NextPage = () => {
       title='テーブル作成'
       description='新しいテーブルを作成するページです。'
     >
+      <>
+      
+      <Modal
+        show={showModal}
+        title={modalContent.title}
+        message={modalContent.message}
+        onClose={() => setShowModal(false)}
+      />
       <div className='flex justify-center items-center flex-col'>
         <h1 className='m-5'>新規テーブル作成</h1>
         <div className="mb-6">
@@ -156,6 +173,7 @@ const Create: NextPage = () => {
           </button>  
         </form>
       </div>
+      </>
     </Layout>
   )
 }
