@@ -34,7 +34,7 @@ const Create: NextPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await fetch('/api/create', {
+      const response = await fetch('http://localhost:3000/api/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
