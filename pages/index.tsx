@@ -2,13 +2,14 @@ import type { NextPage } from 'next'
 import { useState, useEffect } from 'react';
 import { Layout } from '../components/Layout'
 
+interface List {
+  id: string;
+  name: string;
+}
 
 const Home: NextPage = () => {
 
-  const [data, setData] = useState([
-    { id: "2hjdyi3j", name: "顧客管理", category: "営業", date: "2023/01/30" },
-    { id: "hfy5anv3", name: "アプローチリスト", category: "営業", date: "2022/12/22" },
-  ]);
+  const [data, setData] = useState<List[]>([]);
 
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
@@ -50,7 +51,7 @@ const Home: NextPage = () => {
 				return;
 			}
 
-			//setData(data);
+			setData(data);
 		};
 
 		fetchData();
@@ -77,13 +78,10 @@ const Home: NextPage = () => {
                   </div>
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Table Name
+                  ID
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Category
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Created date
+                  テーブル名
                 </th>
               </tr>
             </thead>
@@ -100,13 +98,10 @@ const Home: NextPage = () => {
                       </div>
                   </td>
                   <td className="px-6 py-4">
+                    {datas.id}
+                  </td>
+                  <td className="px-6 py-4">
                     {datas.name}
-                  </td>
-                  <td className="px-6 py-4">
-                    {datas.category}
-                  </td>
-                  <td className="px-6 py-4">
-                    {datas.date}
                   </td>
                 </tr>
               ))}
