@@ -46,7 +46,7 @@ const Home: NextPage = () => {
 			});
 
 			const data = await res.json();
-
+      console.log(data)
 			if (!res.ok) {
 				return;
 			}
