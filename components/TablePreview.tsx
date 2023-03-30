@@ -16,8 +16,14 @@ const TablePreview: React.FC<TablePreviewProps> = ({ columns }) => {
               <th
                 key={index}
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                style={{ minWidth: `${column.width}px` }}
+                className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                style={{
+                  minWidth: `${column.width}px`,
+                  maxWidth: `${column.width}px`,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                }}
               >
                 {column.name || `Column ${index}`}
               </th>
@@ -27,11 +33,20 @@ const TablePreview: React.FC<TablePreviewProps> = ({ columns }) => {
         <tbody className="bg-white divide-y divide-gray-200">
           <tr>
             {columns.map((column, index) => (
-              <td key={index} className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-900">
+              <td key={index} className="px-2 py-3">
+                <div
+                  className="text-sm text-gray-900"
+                  style={{
+                    minWidth: `${column.width}px`,
+                    maxWidth: `${column.width}px`,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
                   {column.type === 'text' && 'Sample text'}
                   {column.type === 'button' && (
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded">
                       Button
                     </button>
                   )}
