@@ -45,11 +45,12 @@ const Home: NextPage = () => {
 				credentials: 'include' // Send cookie
 			});
 
-			const data = await res.json();
-      console.log(data)
 			if (!res.ok) {
 				return;
 			}
+
+      const data = await res.json();
+      console.log('Fetched data:', data);
 
 			setData(data);
 		};
