@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import { useState, useEffect } from 'react'
 import { Layout } from '../components/Layout'
 import Modal from '../components/Modal';
+import TablePreview from '../components/TablePreview';
 
 const Create: NextPage = () => {
 
@@ -12,7 +13,8 @@ const Create: NextPage = () => {
   const [tableName, setTableName] = useState("")
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({ title: '', message: '' });
-  
+  const [showTablePreview, setShowTablePreview] = useState(false); 
+
   const handleAddColumn = () => {
     const newId = columns.length;
     const uId = Date.now();
@@ -181,6 +183,15 @@ const Create: NextPage = () => {
           +
         </button>
 
+        <button
+          type="button"
+          className={`my-3 ${showTablePreview ? 'bg-red-500' : 'bg-green-500'} hover:${showTablePreview ? 'bg-red-600' : 'bg-green-600'} text-white font-bold py-2 px-4 rounded`}
+          onClick={() => setShowTablePreview(!showTablePreview)}
+        >
+          {showTablePreview ? 'プレビューを非表示' : 'プレビューを表示'}
+        </button>
+        {showTablePreview && <TablePreview columns={columns} />}
+        
         <form onSubmit={handleSubmit}>
           <button
             type="submit"

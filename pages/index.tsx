@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { Layout } from '../components/Layout'
 
 interface List {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
 const Home: NextPage = () => {
@@ -45,11 +45,12 @@ const Home: NextPage = () => {
 				credentials: 'include' // Send cookie
 			});
 
-			const data = await res.json();
-
 			if (!res.ok) {
 				return;
 			}
+
+      const data = await res.json();
+      console.log('Fetched data:', data);
 
 			setData(data);
 		};
@@ -81,7 +82,7 @@ const Home: NextPage = () => {
                   ID
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  テーブル名
+                  Table Name
                 </th>
               </tr>
             </thead>
