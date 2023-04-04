@@ -16,22 +16,25 @@ const Table: NextPage = () => {
   const [tableName, setTableName] = useState('');
 
 	useEffect(() => {
+    console.log("id: ",id)
     const fetchTable = async () => {
       try {
-				const response = await fetch('http://localhost:3000/api/table', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({id}),
-				});
-				if (!response.ok) {
-					throw new Error(response.statusText);
-				}
-				const { columns, tableName } = await response.json();
+        if (id) {
+          const response = await fetch('http://localhost:3000/api/table', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({id}),
+          });
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+          const { columns, tableName } = await response.json();
 
-        setColumns(columns);
-        setTableName(tableName);
+          setColumns(columns);
+          setTableName(tableName);
+        }
       } catch (error) {
         console.error(error);
       }
