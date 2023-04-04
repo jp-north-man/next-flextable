@@ -7,13 +7,14 @@ export default async function handler(
   try {
     if (req.method === 'POST') {
       const { id } = req.body;
-
+      console.log(id)
+      const idAsNumber = parseInt(id, 10);
       const response = await fetch('http://localhost:8080/table', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({id: idAsNumber}),
       });
 
       if (!response.ok) {
